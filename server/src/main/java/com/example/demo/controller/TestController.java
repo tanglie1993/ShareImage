@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 //import com.example.demo.dao.ImagesDao;
+import com.example.demo.dao.ImagesDao;
 import com.example.demo.entity.ImagesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,8 @@ import java.io.IOException;
 @RestController
 public class TestController {
 
-//    @Autowired
-//    ImagesDao imagesDao;
+    @Autowired
+    ImagesDao imagesDao;
 
     @RequestMapping("/h")
     public String hello() {
@@ -48,11 +49,11 @@ public class TestController {
         }
         try {
             file.transferTo(dest);
-//            ImagesEntity entity = new ImagesEntity();
-//            entity.setUserId(userId);
-//            entity.setTimestamp(System.currentTimeMillis());
-//            entity.setFormat("png");
-//            imagesDao.save(entity);
+            ImagesEntity entity = new ImagesEntity();
+            entity.setUserId(userId);
+            entity.setTimestamp(System.currentTimeMillis());
+            entity.setFormat("png");
+            imagesDao.save(entity);
             return "上传成功";
         } catch (IllegalStateException e) {
             e.printStackTrace();
