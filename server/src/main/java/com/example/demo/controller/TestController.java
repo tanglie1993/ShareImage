@@ -6,8 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class TestController {
@@ -23,28 +29,14 @@ public class TestController {
         if (file.isEmpty()) {
             return "文件为空";
         }
-        // 获取文件名
-        String fileName;
-        if(timestamp != null){
-            fileName = "" + timestamp + ".png";
-        }else{
-            fileName = "" + System.currentTimeMillis() + ".png";
-        }
+        String fileName = getFileName(timestamp);
         String filePath = "//root//images//" + userId + "//";
-        if(!new File(filePath).exists()){
-            new File(filePath).mkdirs();
-        }
+//        String filePath = "d://" + userId + "//";
         File dest = new File(filePath + fileName);
-        if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs();
-        }
+        mkdirs(filePath, dest);
         try {
             file.transferTo(dest);
-            ImagesEntity entity = new ImagesEntity();
-            entity.setUserId(userId);
-            entity.setTimestamp(System.currentTimeMillis());
-            entity.setFormat("png");
-            imagesDao.save(entity);
+            saveToDatabase(userId, dest);
             return "上传成功";
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -54,10 +46,46 @@ public class TestController {
         return "上传失败";
     }
 
+    private void saveToDatabase(@RequestParam(value = "user_id", required = true) Integer userId, File dest) throws IOException {
+        ImagesEntity entity = new ImagesEntity();
+        entity.setUserId(userId);
+        entity.setTimestamp(System.currentTimeMillis());
+        String[] splitedName = dest.getName().split("\\.");
+        if(splitedName.length > 0){
+            entity.setFormat(splitedName[splitedName.length - 1]);
+        }else{
+            entity.setFormat("unknown");
+        }
+        BufferedImage sourceImg = ImageIO.read(new FileInputStream(dest));
+        entity.setWidth(sourceImg.getWidth());
+        entity.setHeight(sourceImg.getHeight());
+        entity.setBytes((double) dest.length());
+        imagesDao.save(entity);
+    }
+
+    private void mkdirs(String filePath, File dest) {
+        if(!new File(filePath).exists()){
+            new File(filePath).mkdirs();
+        }
+        if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+    }
+
+    private String getFileName(@RequestParam(value = "timestamp", required = false) Integer timestamp) {
+        String fileName;
+        if(timestamp != null){
+            fileName = "" + timestamp + ".png";
+        }else{
+            fileName = "" + System.currentTimeMillis() + ".png";
+        }
+        return fileName;
+    }
+
     @RequestMapping(value = "/image", method = RequestMethod.GET)
-    public void testDownload(@RequestParam ("user_id") Integer userId,
-                             @RequestParam ("timestamp") Long timestamp,
-                             HttpServletResponse res) {
+    public void download(@RequestParam ("user_id") Integer userId,
+                         @RequestParam ("timestamp") Long timestamp,
+                         HttpServletResponse res) {
         String fileName = "//root//images//" + userId + "//" + timestamp + ".png";
         res.setHeader("content-type", "application/octet-stream");
         res.setContentType("application/octet-stream");
@@ -85,5 +113,16 @@ public class TestController {
                 }
             }
         }
+    }
+
+    @RequestMapping(value = "/imageList", method = RequestMethod.GET)
+    public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
+        Map<String, Object> result = new HashMap<>();
+        List<Long> list = new ArrayList<>();
+        for(ImagesEntity entity : imagesDao.findByUserId(userId)){
+            list.add(entity.getTimestamp());
+        }
+        result.put("list", list);
+        return result;
     }
 }
