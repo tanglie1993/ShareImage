@@ -48,8 +48,8 @@ public class TestController {
         File dest = new File(filePath + fileName);
         mkdirs(filePath, dest);
         try {
-            file.transferTo(dest);
             thumbnailService.generateThumbnail(file, userId, timestamp);
+            file.transferTo(dest);
             saveToDatabase(userId, dest);
             return "上传成功";
         } catch (IllegalStateException e) {
