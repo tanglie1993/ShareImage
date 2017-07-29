@@ -15,16 +15,20 @@ alert("aaa")
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange=function(){
   if (xmlhttp.readyState==4 && xmlhttp.status==200){
-    alert(xmlhttp.responseText);
+    document.write("<ul>")
+    var result = JSON.parse(xmlhttp.responseText);
+    for(var index in result.list){
+        console.log(JSON.stringify(result.list[index]))
+        document.write("<li><img src=\"http://116.62.134.157/image/42/" + result.list[index].timestamp + ".png\"/></li>")
+    }
+    document.write("</ul>")
   }
 }
 xmlhttp.open("GET","http://116.62.134.157:80/imageList?user_id=42",true);
 xmlhttp.send();
-document.write("<ul>")
-for(var i = 0; i < 100; i++){
-    document.write("<li><img src=\"http://116.62.134.157/image/42/1501302346705.png\"/></li>")
-}
-document.write("</ul>")
+
+
+
 </script>
 <!--<html>
 <head>
