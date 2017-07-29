@@ -9,15 +9,15 @@
             document.write("<ul>")
             var result = JSON.parse(xmlhttp.responseText);
             for (var index in result.list) {
-                console.log(JSON.stringify(result.list[index]))
                 document.write("<li><img" +
                     " width = 100px" +
                     " height = 100px" +
                     " src=\"loading.gif\"" +
-                    " data-src=\"http://116.62.134.157/image/42/" +
+                    " data-src=\"http://116.62.134.157/image/42/thumb_" +
                     result.list[index].timestamp +
                     ".png\"/>" +
                     "</li>")
+                console.log("http://116.62.134.157/image/42/thumb_" + result.list[index].timestamp + ".png")
             }
             document.write("</ul>")
             window.onscroll = lazyload()

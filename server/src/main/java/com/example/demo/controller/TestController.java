@@ -50,7 +50,7 @@ public class TestController {
         try {
             thumbnailService.generateThumbnail(file, userId, timestamp);
             file.transferTo(dest);
-            saveToDatabase(userId, dest);
+            saveToDatabase(userId, timestamp, dest);
             return "上传成功";
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -60,10 +60,10 @@ public class TestController {
         return "上传失败";
     }
 
-    private void saveToDatabase(@RequestParam(value = "user_id", required = true) Integer userId, File dest) throws IOException {
+    private void saveToDatabase(@RequestParam(value = "user_id", required = true) Integer userId, Long timestamp, File dest) throws IOException {
         ImagesEntity entity = new ImagesEntity();
         entity.setUserId(userId);
-        entity.setTimestamp(System.currentTimeMillis());
+        entity.setTimestamp(timestamp);
         String[] splitedName = dest.getName().split("\\.");
         if(splitedName.length > 0){
             entity.setFormat(splitedName[splitedName.length - 1]);
@@ -96,16 +96,17 @@ public class TestController {
         return result;
     }
 
-    @RequestMapping(value = "/image/{user_id}/{timestamp}.{format}", method = RequestMethod.GET)
+    @RequestMapping(value = "/image/{user_id}/{name}.{format}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getFile(@PathVariable ("user_id") Integer userId,
-                                     @PathVariable ("timestamp") Long timestamp,
+                                     @PathVariable ("name") String name,
                                      @PathVariable ("format") String format) {
         try {
             return ResponseEntity.ok(resourceLoader.getResource("file:" +
-                    Paths.get(FileConstants.ROOT_IMAGES + userId , "" + timestamp + "." + format).toString()));
+                    Paths.get(FileConstants.ROOT_IMAGES + userId , "" + name + "." + format).toString()));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
+
 }
