@@ -1,4 +1,40 @@
-<img src="https://116.62.134.157:80/image?user_id=42&timestamp=1501302346705" width="640" height="480">
+<!--<script>
+    alert("aaa")
+	document.write("<ul>")
+    document.write("<li><img src="http://116.62.134.157/image/42/1501302346705.png"/></li>")
+    document.write("<li><img src="http://116.62.134.157/image/42/1501302346705.png"/></li>")
+    document.write("<li><img src="http://116.62.134.157/image/42/1501302346705.png"/></li>")
+    document.write("</ul>")
+</script>-->
+
+<html>
+
+</html>   
 <script>
-	document.write("https://116.62.134.157:80/image?user_id=42&timestamp=1501302346705")
+alert("aaa")
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange=function(){
+  if (xmlhttp.readyState==4 && xmlhttp.status==200){
+    alert(xmlhttp.responseText);
+  }
+}
+xmlhttp.open("GET","http://116.62.134.157:80/imageList?user_id=42",true);
+xmlhttp.send();
+document.write("<ul>")
+for(var i = 0; i < 100; i++){
+    document.write("<li><img src=\"http://116.62.134.157/image/42/1501302346705.png\"/></li>")
+}
+document.write("</ul>")
 </script>
+<!--<html>
+<head>
+<script src="http://www.jb51.net/head.js"></script>
+<title></title>
+</head>
+<body>
+<script src="http://www.jb51.net/body.js"></script>
+</body>
+</html>
+<script>
+alert("底部脚本");
+</script>-->
