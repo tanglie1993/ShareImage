@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = "/*", filterName = "indexFilter")
-public class IndexFilter implements Filter {
-    Log log = LogFactory.getLog(IndexFilter.class);
+public class HeaderFilter  implements Filter {
+    Log log = LogFactory.getLog(HeaderFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("init IndexFilter");
+        log.info("init HeaderFilter");
     }
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
