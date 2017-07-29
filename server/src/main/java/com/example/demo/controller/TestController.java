@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-//import com.example.demo.dao.ImagesDao;
 import com.example.demo.dao.ImagesDao;
 import com.example.demo.entity.ImagesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +15,6 @@ public class TestController {
     @Autowired
     ImagesDao imagesDao;
 
-    @RequestMapping("/h")
-    public String hello() {
-        return "Hello";
-    }
-
-    @RequestMapping("/w")
-    public String world() {
-        return "World";
-    }
-
-    //文件上传相关代码
     @RequestMapping(value = "image", method = RequestMethod.POST)
     @ResponseBody
     public String upload(@RequestParam(value = "file", required = true) MultipartFile file,
@@ -65,7 +53,7 @@ public class TestController {
         }
         return "上传失败";
     }
-//
+
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public void testDownload(@RequestParam ("user_id") Integer userId,
                              @RequestParam ("timestamp") Long timestamp,
@@ -97,6 +85,5 @@ public class TestController {
                 }
             }
         }
-        System.out.println("success");
     }
 }
