@@ -104,7 +104,7 @@ public class TestController {
                                      @PathVariable ("timestamp") Long timestamp,
                                      @PathVariable ("format") String format) {
         try {
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get("d://" + userId , "" + timestamp + "." + format).toString()));
+            return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get("//root//images//" + userId , "" + timestamp + "." + format).toString()));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
