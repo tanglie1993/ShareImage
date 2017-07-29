@@ -1,9 +1,16 @@
 package com.example.demo.controller;
 
 //import com.example.demo.dao.ImagesDao;
+import com.example.demo.entity.ImagesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 public class TestController {
@@ -22,38 +29,38 @@ public class TestController {
     }
 
     //文件上传相关代码
-//    @RequestMapping(value = "upload")
-//    @ResponseBody
-//    public String upload(@RequestParam("file") MultipartFile file,
-//                         @RequestParam ("user_id") Integer userId) {
-//        if (file.isEmpty()) {
-//            return "文件为空";
-//        }
-//        // 获取文件名
-//        String fileName = "" + System.currentTimeMillis() + ".png";
-//        String filePath = "//root//images//" + userId + "//";
-//        if(!new File(filePath).exists()){
-//            new File(filePath).mkdirs();
-//        }
-//        File dest = new File(filePath + fileName);
-//        if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
-//            dest.getParentFile().mkdirs();
-//        }
-//        try {
-//            file.transferTo(dest);
+    @RequestMapping(value = "upload")
+    @ResponseBody
+    public String upload(@RequestParam("file") MultipartFile file,
+                         @RequestParam("user_id") Integer userId) {
+        if (file.isEmpty()) {
+            return "文件为空";
+        }
+        // 获取文件名
+        String fileName = "" + System.currentTimeMillis() + ".png";
+        String filePath = "//root//images//" + userId + "//";
+        if(!new File(filePath).exists()){
+            new File(filePath).mkdirs();
+        }
+        File dest = new File(filePath + fileName);
+        if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest);
 //            ImagesEntity entity = new ImagesEntity();
 //            entity.setUserId(userId);
 //            entity.setTimestamp(System.currentTimeMillis());
 //            entity.setFormat("png");
 //            imagesDao.save(entity);
-//            return "上传成功";
-//        } catch (IllegalStateException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return "上传失败";
-//    }
+            return "上传成功";
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "上传失败";
+    }
 //
 //    @RequestMapping(value = "/testDownload", method = RequestMethod.GET)
 //    public void testDownload(@RequestParam ("user_id") Integer userId,
