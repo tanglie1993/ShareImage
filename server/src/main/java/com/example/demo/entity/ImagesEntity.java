@@ -112,4 +112,17 @@ public class ImagesEntity {
         result = 31 * result + (format != null ? format.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ImagesEntity{" +
+                "userId=" + userId +
+                ", id=" + id +
+                ", timestamp=" + timestamp +
+                ", bytes=" + bytes +
+                ", width=" + width +
+                ", height=" + height +
+                ", format='" + format + '\'' +
+                '}';
+    }
 }

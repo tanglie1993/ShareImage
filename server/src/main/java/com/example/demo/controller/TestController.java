@@ -118,10 +118,8 @@ public class TestController {
     @RequestMapping(value = "/imageList", method = RequestMethod.GET)
     public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
         Map<String, Object> result = new HashMap<>();
-        List<Long> list = new ArrayList<>();
-        for(ImagesEntity entity : imagesDao.findByUserId(userId)){
-            list.add(entity.getTimestamp());
-        }
+        List<ImagesEntity> list = new ArrayList<>();
+        list.addAll(imagesDao.findByUserId(userId));
         result.put("list", list);
         return result;
     }
