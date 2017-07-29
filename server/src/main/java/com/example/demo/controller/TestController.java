@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.constants.FileConstants;
 import com.example.demo.dao.ImagesDao;
 import com.example.demo.entity.ImagesEntity;
+import com.example.demo.service.ThumbnailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -27,21 +29,27 @@ public class TestController {
     @Autowired
     ResourceLoader resourceLoader;
 
+    @Autowired
+    ThumbnailService thumbnailService;
+
     @RequestMapping(value = "image", method = RequestMethod.POST)
     @ResponseBody
     public String upload(@RequestParam(value = "file", required = true) MultipartFile file,
                          @RequestParam(value = "user_id", required = true) Integer userId,
-                         @RequestParam(value = "timestamp", required = false) Integer timestamp) {
+                         @RequestParam(value = "timestamp", required = false) Long timestamp) {
         if (file.isEmpty()) {
             return "文件为空";
         }
-        String fileName = getFileName(timestamp);
-        String filePath = "//root//images//" + userId + "//";
-//        String filePath = "d://" + userId + "//";
+        if(timestamp == null){
+            timestamp = System.currentTimeMillis();
+        }
+        String fileName = "" + timestamp + ".png";
+        String filePath = FileConstants.ROOT_IMAGES + userId + "//";
         File dest = new File(filePath + fileName);
         mkdirs(filePath, dest);
         try {
             file.transferTo(dest);
+            thumbnailService.generateThumbnail(file, userId, timestamp);
             saveToDatabase(userId, dest);
             return "上传成功";
         } catch (IllegalStateException e) {
@@ -78,16 +86,6 @@ public class TestController {
         }
     }
 
-    private String getFileName(@RequestParam(value = "timestamp", required = false) Integer timestamp) {
-        String fileName;
-        if(timestamp != null){
-            fileName = "" + timestamp + ".png";
-        }else{
-            fileName = "" + System.currentTimeMillis() + ".png";
-        }
-        return fileName;
-    }
-
 
     @RequestMapping(value = "/imageList", method = RequestMethod.GET)
     public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
@@ -104,7 +102,8 @@ public class TestController {
                                      @PathVariable ("timestamp") Long timestamp,
                                      @PathVariable ("format") String format) {
         try {
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get("//root//images//" + userId , "" + timestamp + "." + format).toString()));
+            return ResponseEntity.ok(resourceLoader.getResource("file:" +
+                    Paths.get(FileConstants.ROOT_IMAGES + userId , "" + timestamp + "." + format).toString()));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
