@@ -1,0 +1,47 @@
+
+<html>
+
+</html>
+<script>
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.write("<ul>")
+            var result = JSON.parse(xmlhttp.responseText);
+            for (var index in result.list) {
+                document.write("<li><img" +
+                    " width = 100px" +
+                    " height = 100px" +
+                    " src=\"loading.gif\"" +
+                    " data-src=\"http://116.62.134.157/image/42/thumb_" +
+                    result.list[index].timestamp +
+                    ".png\"/>" +
+                    "</li>")
+                console.log("http://116.62.134.157/image/42/thumb_" + result.list[index].timestamp + ".png")
+            }
+            document.write("</ul>")
+            window.onscroll = lazyload()
+        }
+    }
+    xmlhttp.open("GET", "http://116.62.134.157:80/imageList?user_id=42", true);
+    xmlhttp.send();
+    
+    function lazyload() {
+        var images = document.getElementsByTagName('img');
+        var len = images.length;
+        var n = 0; //存储图片加载到的位置，避免每次都从第一张图片开始遍历		
+        return function() {
+            var seeHeight = document.documentElement.clientHeight;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            for (var i = n; i < len; i++) {
+                if (images[i].offsetTop < seeHeight + scrollTop) {
+                    if (images[i].getAttribute('src') === 'loading.gif') {
+                        images[i].src = images[i].getAttribute('data-src');
+                    }
+                    n = n + 1;
+                }
+            }
+        }
+    }
+    
+</script>
