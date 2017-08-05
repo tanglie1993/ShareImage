@@ -59,17 +59,17 @@ export default class RNDemo extends Component {
     }
 
 
-    renderContent(text) {
+    renderContent(content) {
         console.log("ddddddddddd")
         let uri = 'http://116.62.134.157:80/image/42/1501339989343.png';
         let height = 100;
         let width = 100;
         var pages = [];
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < content.list.length; i++) {
             pages.push(
                 <Image
                     key={i}
-                    source={{uri: uri}}
+                    source={{uri:  'http://116.62.134.157:80/image/42/' + content.list[i].imageUrl + '.png'}}
                     style={{width: width, height: height}} />
             );
         }
