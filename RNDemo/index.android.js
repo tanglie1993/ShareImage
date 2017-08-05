@@ -20,7 +20,7 @@ export default class RNDemo extends Component {
         super(props);
         console.log("00000000")
         this.state = {
-            content: "",
+            content: null,
         };
     }
 
@@ -31,7 +31,7 @@ export default class RNDemo extends Component {
             .then((responseJson) => {
                 console.log("aaaaaa")
                 this.setState({
-                    content:JSON.stringify(responseJson)
+                    content:responseJson
                 });
             })
             .catch((error) => {
@@ -64,39 +64,21 @@ export default class RNDemo extends Component {
         let uri = 'http://116.62.134.157:80/image/42/1501339989343.png';
         let height = 100;
         let width = 100;
+        var pages = [];
+        for (var i = 0; i < 10; i++) {
+            pages.push(
+                <Image
+                    key={i}
+                    source={{uri: uri}}
+                    style={{width: width, height: height}} />
+            );
+        }
         return(
             <ScrollView>
-              <Text style={{fontSize:16}}>{text}</Text>
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
-              <Image source={{uri: uri}}
-                     style={{width: width, height: height}} />
+              <Text style={{fontSize:16}}>"ssss"</Text>
+              <View>
+                  { pages }
+              </View>
               <Text style={{fontSize:80}}>React Native</Text>
             </ScrollView>
         );
