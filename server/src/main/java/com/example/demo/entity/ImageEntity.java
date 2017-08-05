@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "images", schema = "tanglie", catalog = "")
-public class ImagesEntity {
+public class ImageEntity {
     private Integer userId;
     private int id;
     private Long timestamp;
@@ -88,15 +88,9 @@ public class ImagesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ImagesEntity that = (ImagesEntity) o;
+        ImageEntity that = (ImageEntity) o;
 
         if (id != that.id) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null) return false;
-        if (bytes != null ? !bytes.equals(that.bytes) : that.bytes != null) return false;
-        if (width != null ? !width.equals(that.width) : that.width != null) return false;
-        if (height != null ? !height.equals(that.height) : that.height != null) return false;
-        if (format != null ? !format.equals(that.format) : that.format != null) return false;
 
         return true;
     }
@@ -115,7 +109,7 @@ public class ImagesEntity {
 
     @Override
     public String toString() {
-        return "ImagesEntity{" +
+        return "ImageEntity{" +
                 "userId=" + userId +
                 ", id=" + id +
                 ", timestamp=" + timestamp +

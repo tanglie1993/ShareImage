@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.constants.FileConstants;
 import com.example.demo.dao.ImagesDao;
-import com.example.demo.entity.ImagesEntity;
+import com.example.demo.entity.ImageEntity;
 import com.example.demo.service.ThumbnailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
@@ -61,7 +60,7 @@ public class ImageController {
     }
 
     private void saveToDatabase(@RequestParam(value = "user_id", required = true) Integer userId, Long timestamp, File dest) throws IOException {
-        ImagesEntity entity = new ImagesEntity();
+        ImageEntity entity = new ImageEntity();
         entity.setUserId(userId);
         entity.setTimestamp(timestamp);
         String[] splitedName = dest.getName().split("\\.");
@@ -90,7 +89,7 @@ public class ImageController {
     @RequestMapping(value = "/imageList", method = RequestMethod.GET)
     public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
         Map<String, Object> result = new HashMap<>();
-        List<ImagesEntity> list = new ArrayList<>();
+        List<ImageEntity> list = new ArrayList<>();
         list.addAll(imagesDao.findByUserId(userId));
         result.put("list", list);
         return result;
