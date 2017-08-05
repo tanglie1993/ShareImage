@@ -18,16 +18,17 @@ import {
 export default class RNDemo extends Component {
     constructor(props) {
         super(props);
-        this.state = {text: ''};
+        console.log("00000000")
+        this.state = {
+            content: "",
+        };
     }
 
-    render() {
         let uri = 'http://116.62.134.157:80/image/42/1501339989343.png';
         let height = 100;
         let width = 100;
         return(
             <ScrollView>
-              <Text style={{fontSize:96}}>Scroll me plz</Text>
               <Image source={{uri: uri}}
                   style={{width: width, height: height}} />
                 <Image source={{uri: uri}}
