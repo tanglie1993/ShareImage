@@ -12,7 +12,8 @@ import {
     View,
     TextInput,
     ScrollView,
-    Image
+    Image,
+    SectionList
 } from 'react-native';
 
 export default class RNDemo extends Component {
@@ -76,8 +77,19 @@ export default class RNDemo extends Component {
         return(
             <ScrollView>
               <Text style={{fontSize:16}}>"ssss"</Text>
-              <View>
-                  { pages }
+              {/*<View>*/}
+                  {/*{ pages }*/}
+              {/*</View>*/}
+
+              <View style={styles.container}>
+                <SectionList
+                    sections={[
+                        {title: 'D', data: ['Devin']},
+                        {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
+                    ]}
+                    renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+                    renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+                />
               </View>
               <Text style={{fontSize:80}}>React Native</Text>
             </ScrollView>
