@@ -2,7 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.constants.FileConstants;
 import com.example.demo.dao.ImagesDao;
+import com.example.demo.dao.PostsDao;
+import com.example.demo.dao.UsersDao;
 import com.example.demo.entity.ImageEntity;
+import com.example.demo.entity.PostEntity;
+import com.example.demo.entity.PostView;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.service.ThumbnailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -14,16 +19,19 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class ImageController {
 
     @Autowired
     ImagesDao imagesDao;
+
+    @Autowired
+    PostsDao postsDao;
+
+    @Autowired
+    UsersDao usersDao;
 
     @Autowired
     ResourceLoader resourceLoader;
@@ -89,9 +97,28 @@ public class ImageController {
     @RequestMapping(value = "/imageList", method = RequestMethod.GET)
     public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
         Map<String, Object> result = new HashMap<>();
-        List<ImageEntity> list = new ArrayList<>();
-        list.addAll(imagesDao.findByUserId(userId));
-        result.put("list", list);
+        Map<Integer, ImageEntity> imageEntityMap = new HashMap();
+        for(ImageEntity entity : imagesDao.findByUserId(userId)){
+            imageEntityMap.put(entity.getId(), entity);
+        }
+        List<PostEntity> postEntityList = new ArrayList<>();
+        postEntityList.addAll(postsDao.findByUserId(userId));
+        UserEntity userEntity = usersDao.findById(userId);
+        List<PostView> postViewList = new ArrayList<>();
+        for(PostEntity postEntity : postEntityList){
+            PostView postView = new PostView();
+            postView.setText(postEntity.getText());
+            postView.setTimeStamp(postEntity.getTimestamp());
+            postView.setUserAvatar("" + userEntity.getAvatarId());
+            postView.setUserName(userEntity.getNickname());
+            postView.setUserSex(userEntity.getGender());
+            ImageEntity image = imageEntityMap.get(postEntity.getImageId());
+            if(image != null){
+                postView.setImageUrl("" + image.getTimestamp());
+            }
+            postViewList.add(postView);
+        }
+        result.put("list", postViewList);
         return result;
     }
 

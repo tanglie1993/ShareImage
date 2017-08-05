@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UsersDao extends CrudRepository<UserEntity, Long> {
-    List<UserEntity> findById(Integer userId);
+    UserEntity findById(Integer userId);
 
     @Query(value="select id from users", nativeQuery=true)
     List<Integer> findAllIds();

@@ -16,17 +16,14 @@ public class ThumbnailService {
 
     public void generateThumbnail(MultipartFile file, int userId, long timeStamp) {
         try {
-            String thumbnailAddress = getThumbnailAddress(userId, timeStamp);
-            if(!new File(thumbnailAddress).getParentFile().exists()){
+            String thumbnailAddress = FileConstants.getThumbnailAddress(userId, timeStamp);
+            if (!new File(thumbnailAddress).getParentFile().exists()) {
                 new File(thumbnailAddress).getParentFile().mkdirs();
             }
-            Thumbnails.of(file.getInputStream()).size(WIDTH, HEIGHT).toFile(thumbnailAddress); ;
-        } catch(Exception e) {
-            e.printStackTrace() ;
+            Thumbnails.of(file.getInputStream()).size(WIDTH, HEIGHT).toFile(thumbnailAddress);
+            ;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    public String getThumbnailAddress(int userId, long timeStamp){
-        return FileConstants.ROOT_IMAGES + userId + "//thumb_" + timeStamp;
     }
 }
