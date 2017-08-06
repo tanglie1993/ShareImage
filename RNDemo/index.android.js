@@ -86,16 +86,13 @@ export default class RNDemo extends Component {
                   <View style={styles.container}>
                       <FlatList
                           data={[
-                              {key: 'Devin'},
-                              {key: 'Jackson'},
-                              {key: 'James'},
-                              {key: 'Joel'},
-                              {key: 'John'},
-                              {key: 'Jillian'},
-                              {key: 'Jimmy'},
-                              {key: 'Julie'},
+                              {text: 'Devin'},
+                              {text: 'Jackson'},
+                              {text: 'James'},
+                              {text: 'Joel'},
+                              {text: 'John'},
                           ]}
-                          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+                          renderItem={({item}) => <Text style={styles.item}>{item.text}</Text>}
                       />
                   </View>
 
