@@ -84,10 +84,17 @@ export default class RNDemo extends Component {
               <View style={styles.container}>
                 <SectionList
                     sections={[
-                        {title: 'D', data: ['Devin']},
-                        {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
+                        {title: 'D', data: ['http://116.62.134.157:80/image/42/1501339991536.png',
+                            'http://116.62.134.157:80/image/42/1501339991536.png']},
+                        {title: 'J', data: ['http://116.62.134.157:80/image/42/1501339991536.png',
+                            'http://116.62.134.157:80/image/42/1501339991536.png',
+                            'http://116.62.134.157:80/image/42/1501339991536.png']},
                     ]}
-                    renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+                    renderItem={({item}) =>
+                        <Image
+                            key={i}
+                            style={{width: width, height: height}} />
+                    }
                     renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
                 />
               </View>
