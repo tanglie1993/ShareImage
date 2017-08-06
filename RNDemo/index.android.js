@@ -92,7 +92,10 @@ export default class RNDemo extends Component {
                               {text: 'Joel'},
                               {text: 'John'},
                           ]}
-                          renderItem={({item}) => <Text style={styles.item}>{item.text}</Text>}
+                          renderItem={({item}) => <Image
+                              style={{width: width, height: height}}
+                              source={{uri: 'http://116.62.134.157:80/image/42/1501339991536.png'}}
+                          />}
                       />
                   </View>
 
