@@ -13,10 +13,12 @@ import {
     TextInput,
     ScrollView,
     Image,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from 'react-native';
 
 export default class RNDemo extends Component {
+
     constructor(props) {
         super(props);
         console.log("00000000")
@@ -59,6 +61,9 @@ export default class RNDemo extends Component {
         );
     }
 
+    _onPressButton(){
+        console.log("You tapped the button!");
+    }
 
     renderContent(listData) {
         console.log("ddddddddddd")
@@ -74,10 +79,14 @@ export default class RNDemo extends Component {
                   <View style={styles.container}>
                       <FlatList
                           data={listData}
-                          renderItem={({item}) => <Image
-                              style={{width: width, height: height}}
-                              source={{uri: 'http://116.62.134.157:80/image/42/' + item.imageUrl + '.png'}}
-                          />}
+                          renderItem={({item}) =>
+                              <TouchableOpacity onPress={this._onPressButton}>
+                                  <Image
+                                      style={{width: width, height: height}}
+                                      source={{uri: 'http://116.62.134.157:80/image/42/' + item.imageUrl + '.png'}}
+                                  />
+                              </TouchableOpacity>
+                              }
                       />
                   </View>
               </View>
