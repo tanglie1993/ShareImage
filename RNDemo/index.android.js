@@ -93,6 +93,7 @@ export default class RNDemo extends Component {
                     renderItem={({item}) =>
                         <Image
                             key={i}
+                            source={{uri: item}}
                             style={{width: width, height: height}} />
                     }
                     renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
