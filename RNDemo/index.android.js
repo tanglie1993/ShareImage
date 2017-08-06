@@ -22,6 +22,7 @@ export default class RNDemo extends Component {
         console.log("00000000")
         this.state = {
             content: null,
+            listData : []
         };
     }
 
@@ -65,21 +66,9 @@ export default class RNDemo extends Component {
         let uri = 'http://116.62.134.157:80/image/42/1501339989343.png';
         let height = 100;
         let width = 100;
-        var pages = [];
-        for (var i = 0; i < content.list.length; i++) {
-            pages.push(
-                <Image
-                    key={i}
-                    source={{uri:  'http://116.62.134.157:80/image/42/' + content.list[i].imageUrl + '.png'}}
-                    style={{width: width, height: height}} />
-            );
-        }
         return(
             <ScrollView>
               <Text style={{fontSize:16}}>"ssss"</Text>
-              {/*<View>*/}
-                  {/*{ pages }*/}
-              {/*</View>*/}
 
               <View style={styles.container}>
 
@@ -98,24 +87,6 @@ export default class RNDemo extends Component {
                           />}
                       />
                   </View>
-
-
-                {/*<SectionList*/}
-                    {/*sections={[*/}
-                        {/*{title: 'D', data: ['http://116.62.134.157:80/image/42/1501339991536.png',*/}
-                            {/*'http://116.62.134.157:80/image/42/1501339991536.png']},*/}
-                        {/*{title: 'J', data: ['http://116.62.134.157:80/image/42/1501339991536.png',*/}
-                            {/*'http://116.62.134.157:80/image/42/1501339991536.png',*/}
-                            {/*'http://116.62.134.157:80/image/42/1501339991536.png']},*/}
-                    {/*]}*/}
-                    {/*renderItem={({item}) =>*/}
-                        {/*<Image*/}
-                            {/*key={i}*/}
-                            {/*source={{uri: item}}*/}
-                            {/*style={{width: width, height: height}} />*/}
-                    {/*}*/}
-                    {/*renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}*/}
-                {/*/>*/}
               </View>
               <Text style={{fontSize:80}}>React Native</Text>
             </ScrollView>
