@@ -21,8 +21,7 @@ export default class RNDemo extends Component {
         super(props);
         console.log("00000000")
         this.state = {
-            content: null,
-            listData : []
+            listData : null
         };
     }
 
@@ -33,7 +32,7 @@ export default class RNDemo extends Component {
             .then((responseJson) => {
                 console.log("aaaaaa")
                 this.setState({
-                    content:responseJson
+                    listData:responseJson.list
                 });
             })
             .catch((error) => {
@@ -43,10 +42,10 @@ export default class RNDemo extends Component {
 
     render()
     {
-        if (!this.state.content) {
+        if (!this.state.listData) {
             return this.renderLoadingView();
         }
-        return this.renderContent(this.state.content);
+        return this.renderContent(this.state.listData);
     }
 
     renderLoadingView()
@@ -61,7 +60,7 @@ export default class RNDemo extends Component {
     }
 
 
-    renderContent(content) {
+    renderContent(listData) {
         console.log("ddddddddddd")
         let uri = 'http://116.62.134.157:80/image/42/1501339989343.png';
         let height = 100;
@@ -74,16 +73,10 @@ export default class RNDemo extends Component {
 
                   <View style={styles.container}>
                       <FlatList
-                          data={[
-                              {text: 'Devin'},
-                              {text: 'Jackson'},
-                              {text: 'James'},
-                              {text: 'Joel'},
-                              {text: 'John'},
-                          ]}
+                          data={listData}
                           renderItem={({item}) => <Image
                               style={{width: width, height: height}}
-                              source={{uri: 'http://116.62.134.157:80/image/42/1501339991536.png'}}
+                              source={{uri: 'http://116.62.134.157:80/image/42/' + item.imageUrl + '.png'}}
                           />}
                       />
                   </View>
