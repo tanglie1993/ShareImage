@@ -13,7 +13,7 @@ import {
     TextInput,
     ScrollView,
     Image,
-    SectionList
+    FlatList
 } from 'react-native';
 
 export default class RNDemo extends Component {
@@ -82,22 +82,40 @@ export default class RNDemo extends Component {
               {/*</View>*/}
 
               <View style={styles.container}>
-                <SectionList
-                    sections={[
-                        {title: 'D', data: ['http://116.62.134.157:80/image/42/1501339991536.png',
-                            'http://116.62.134.157:80/image/42/1501339991536.png']},
-                        {title: 'J', data: ['http://116.62.134.157:80/image/42/1501339991536.png',
-                            'http://116.62.134.157:80/image/42/1501339991536.png',
-                            'http://116.62.134.157:80/image/42/1501339991536.png']},
-                    ]}
-                    renderItem={({item}) =>
-                        <Image
-                            key={i}
-                            source={{uri: item}}
-                            style={{width: width, height: height}} />
-                    }
-                    renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-                />
+
+                  <View style={styles.container}>
+                      <FlatList
+                          data={[
+                              {key: 'Devin'},
+                              {key: 'Jackson'},
+                              {key: 'James'},
+                              {key: 'Joel'},
+                              {key: 'John'},
+                              {key: 'Jillian'},
+                              {key: 'Jimmy'},
+                              {key: 'Julie'},
+                          ]}
+                          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+                      />
+                  </View>
+
+
+                {/*<SectionList*/}
+                    {/*sections={[*/}
+                        {/*{title: 'D', data: ['http://116.62.134.157:80/image/42/1501339991536.png',*/}
+                            {/*'http://116.62.134.157:80/image/42/1501339991536.png']},*/}
+                        {/*{title: 'J', data: ['http://116.62.134.157:80/image/42/1501339991536.png',*/}
+                            {/*'http://116.62.134.157:80/image/42/1501339991536.png',*/}
+                            {/*'http://116.62.134.157:80/image/42/1501339991536.png']},*/}
+                    {/*]}*/}
+                    {/*renderItem={({item}) =>*/}
+                        {/*<Image*/}
+                            {/*key={i}*/}
+                            {/*source={{uri: item}}*/}
+                            {/*style={{width: width, height: height}} />*/}
+                    {/*}*/}
+                    {/*renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}*/}
+                {/*/>*/}
               </View>
               <Text style={{fontSize:80}}>React Native</Text>
             </ScrollView>
