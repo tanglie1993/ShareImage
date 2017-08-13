@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
-export class ChatScreen extends React.Component {
+export class DetailScreen extends React.Component {
     static navigationOptions = {
         title: 'Chat with Lucy',
     };

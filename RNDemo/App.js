@@ -2,10 +2,10 @@ import React from 'react';
 import {AppRegistry} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import {HomeScreen} from './HomeScreen';
-import {ChatScreen} from './ChatScreen';
+import {DetailScreen} from './DetailScreen';
 
 const RNDemo = StackNavigator({
     Home: { screen: HomeScreen },
-    Chat: { screen: ChatScreen },
+    Detail: { screen: DetailScreen },
 });
 AppRegistry.registerComponent('RNDemo', () => RNDemo);

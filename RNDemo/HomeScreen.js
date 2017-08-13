@@ -1,16 +1,5 @@
-
-import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    ScrollView,
-    Image,
-    FlatList,
-    TouchableOpacity
-} from 'react-native';
+import React, {Component} from 'react';
+import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export class HomeScreen extends Component {
 
@@ -72,7 +61,7 @@ export class HomeScreen extends Component {
                         <FlatList
                             data={listData}
                             renderItem={({item}) =>
-                                <TouchableOpacity onPress={() => navigate('Chat')}>
+                                <TouchableOpacity onPress={() => navigate('Detail')}>
                                     <Image
                                         style={{width: width, height: height}}
                                         source={{uri: 'http://116.62.134.157:80/image/42/' + item.imageUrl + '.png'}}
