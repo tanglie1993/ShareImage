@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Constants} from "./Constants";
 
 export class HomeScreen extends Component {
+
+    HEIGHT = 100;
+    WIDTH = 100;
 
     static navigationOptions = {
         title: 'Welcome',
@@ -16,7 +20,7 @@ export class HomeScreen extends Component {
 
     componentDidMount()
     {
-        fetch('http://116.62.134.157:80/imageList?user_id=42')
+        fetch(Constants.BASE_URL + 'imageList?user_id=' + Constants.USER_ID)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -49,9 +53,6 @@ export class HomeScreen extends Component {
 
     renderContent(listData) {
         const { navigate } = this.props.navigation;
-        let uri = 'http://116.62.134.157:80/image/42/1501339989343.png';
-        let height = 100;
-        let width = 100;
         return(
             <ScrollView>
 
@@ -63,8 +64,8 @@ export class HomeScreen extends Component {
                             renderItem={({item}) =>
                                 <TouchableOpacity onPress={() => navigate('Detail')}>
                                     <Image
-                                        style={{width: width, height: height}}
-                                        source={{uri: 'http://116.62.134.157:80/image/42/' + item.imageUrl + '.png'}}
+                                        style={{width: this.WIDTH, height: this.HEIGHT}}
+                                        source={{uri: Constants.BASE_URL + '/image/' + Constants.USER_ID + '/' + item.imageUrl + '.png'}}
                                     />
                                 </TouchableOpacity>
                             }

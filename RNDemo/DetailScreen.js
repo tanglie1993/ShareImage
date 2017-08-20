@@ -1,16 +1,23 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image} from 'react-native';
 import {StackNavigator} from 'react-navigation';
+import {Constants} from "./Constants";
 
 export class DetailScreen extends React.Component {
+
+    HEIGHT = 100;
+    WIDTH = 100;
+
     static navigationOptions = {
-        title: 'Chat with Lucy',
+        title: 'Detail',
     };
+
     render() {
         return (
-            <View>
-                <Text>Chat with Lucy</Text>
-            </View>
+            <Image
+                style={{width: this.WIDTH, height: this.HEIGHT}}
+                source={{uri: Constants.BASE_URL + 'image/' + Constants.USER_ID + '/1501339989343' + '.png'}}
+            />
         );
     }
 }
