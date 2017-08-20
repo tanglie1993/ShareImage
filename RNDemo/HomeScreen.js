@@ -62,10 +62,10 @@ export class HomeScreen extends Component {
                         <FlatList
                             data={listData}
                             renderItem={({item}) =>
-                                <TouchableOpacity onPress={() => navigate('Detail')}>
+                                <TouchableOpacity onPress={() => navigate('Detail', {param:  Constants.BASE_URL + 'image/' + Constants.USER_ID + '/' + item.imageUrl + '.png'})}>
                                     <Image
                                         style={{width: this.WIDTH, height: this.HEIGHT}}
-                                        source={{uri: Constants.BASE_URL + '/image/' + Constants.USER_ID + '/' + item.imageUrl + '.png'}}
+                                        source={{uri: Constants.BASE_URL + 'image/' + Constants.USER_ID + '/' + item.imageUrl + '.png'}}
                                     />
                                 </TouchableOpacity>
                             }

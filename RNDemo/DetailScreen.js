@@ -16,7 +16,7 @@ export class DetailScreen extends React.Component {
         return (
             <Image
                 style={{width: this.WIDTH, height: this.HEIGHT}}
-                source={{uri: Constants.BASE_URL + 'image/' + Constants.USER_ID + '/1501339989343' + '.png'}}
+                source={{uri: this.props.navigation.state.params.param}}
             />
         );
     }
