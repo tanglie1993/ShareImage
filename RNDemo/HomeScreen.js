@@ -53,6 +53,7 @@ export class HomeScreen extends Component {
 
     renderContent(listData) {
         const { navigate } = this.props.navigation;
+        imageBaseUrl = Constants.BASE_URL + 'image/' + Constants.USER_ID + '/'
         return(
             <ScrollView>
 
@@ -62,17 +63,16 @@ export class HomeScreen extends Component {
                         <FlatList
                             data={listData}
                             renderItem={({item}) =>
-                                <TouchableOpacity onPress={() => navigate('Detail', {param:  Constants.BASE_URL + 'image/' + Constants.USER_ID + '/' + item.imageUrl + '.png'})}>
+                                <TouchableOpacity onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
                                     <Image
                                         style={{width: this.WIDTH, height: this.HEIGHT}}
-                                        source={{uri: Constants.BASE_URL + 'image/' + Constants.USER_ID + '/' + item.imageUrl + '.png'}}
+                                        source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
                                     />
                                 </TouchableOpacity>
                             }
                         />
                     </View>
                 </View>
-                <Text style={{fontSize:80}}>React Native</Text>
             </ScrollView>
         );
     }
