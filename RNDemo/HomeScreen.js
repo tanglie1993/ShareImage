@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Constants} from "./Constants";
+import Orientation from 'react-native-orientation';
 
 export class HomeScreen extends Component {
 
@@ -16,6 +17,11 @@ export class HomeScreen extends Component {
         this.state = {
             listData : null
         };
+    }
+
+    componentWillMount() {
+        // 只允许竖屏
+        Orientation.lockToPortrait();
     }
 
     componentDidMount()
@@ -45,7 +51,7 @@ export class HomeScreen extends Component {
         return (
             <View style={styles.container}>
                 <Text>
-                    正在加载数据......
+                    正在加载......
                 </Text>
             </View>
         );
