@@ -8,7 +8,7 @@ public class ImageEntity {
     private Integer userId;
     private int id;
     private Long timestamp;
-    private Double bytes;
+    private Long bytes;
     private Integer width;
     private Integer height;
     private String format;
@@ -45,11 +45,11 @@ public class ImageEntity {
 
     @Basic
     @Column(name = "bytes")
-    public Double getBytes() {
+    public Long getBytes() {
         return bytes;
     }
 
-    public void setBytes(Double bytes) {
+    public void setBytes(Long bytes) {
         this.bytes = bytes;
     }
 
