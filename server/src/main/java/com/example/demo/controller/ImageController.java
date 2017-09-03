@@ -80,7 +80,7 @@ public class ImageController {
         BufferedImage sourceImg = ImageIO.read(new FileInputStream(dest));
         entity.setWidth(sourceImg.getWidth());
         entity.setHeight(sourceImg.getHeight());
-        entity.setBytes((double) dest.length());
+        entity.setBytes(dest.length());
         imagesDao.save(entity);
     }
 
