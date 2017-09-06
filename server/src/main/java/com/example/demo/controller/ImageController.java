@@ -135,4 +135,11 @@ public class ImageController {
         }
     }
 
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    public Map<String, Object> hello(@RequestParam ("user_id") Integer userId) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("hello", "hello");
+        return result;
+    }
+
 }
