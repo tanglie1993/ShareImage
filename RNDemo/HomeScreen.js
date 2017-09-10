@@ -62,8 +62,9 @@ export class HomeScreen extends Component {
         const { navigate } = this.props.navigation;
         imageBaseUrl = Constants.BASE_URL + 'image/' + Constants.USER_ID + '/'
         return(
+            <View>
                 <ScrollView>
-                        <View style={styles.container}>
+                        <View style={styles.listContainer}>
                             <FlatList
                                 data={listData}
                                 renderItem={({item}) =>
@@ -75,19 +76,22 @@ export class HomeScreen extends Component {
                                     </TouchableOpacity>
                                 }
                             />
-
-                            <TouchableHighlight style={styles.addButton}
-                                                underlayColor='#ff7043' onPress={()=>{console.log('pressed')}}>
-                                <Text style={{fontSize: 50, color: 'white'}}>+</Text>
-                            </TouchableHighlight>
                         </View>
                 </ScrollView>
+
+                <TouchableHighlight
+                    style={styles.addButton}
+                    underlayColor='#ff7043'
+                    onPress={()=>{console.log('pressed')}}>
+                    <Text style={{fontSize: 50, color: 'white'}}>+</Text>
+                </TouchableHighlight>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    listContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -107,9 +111,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#ff5722',
         borderColor: '#ff5722',
         borderWidth: 1,
-        height: 100,
-        width: 100,
-        borderRadius: 50,
+        height: 80,
+        width: 80,
+        borderRadius: 40,
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
@@ -117,10 +121,10 @@ const styles = StyleSheet.create({
         right:20,
         shadowColor: "#000000",
         shadowOpacity: 0.8,
-        shadowRadius: 2,
+        shadowRadius: 5,
         shadowOffset: {
-            height: 1,
-            width: 0
+            height: 5,
+            width: 5
         }
     }
 });
