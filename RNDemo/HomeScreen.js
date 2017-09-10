@@ -62,10 +62,26 @@ export class HomeScreen extends Component {
         const { navigate } = this.props.navigation;
         imageBaseUrl = Constants.BASE_URL + 'image/' + Constants.USER_ID + '/'
         return(
-            <TouchableHighlight style={styles.addButton}
-                                underlayColor='#ff7043' onPress={()=>{console.log('pressed')}}>
-                <Text style={{fontSize: 50, color: 'white'}}>+</Text>
-            </TouchableHighlight>
+                <ScrollView>
+                        <View style={styles.container}>
+                            <FlatList
+                                data={listData}
+                                renderItem={({item}) =>
+                                    <TouchableOpacity onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
+                                        <Image
+                                            style={{width: this.WIDTH, height: this.HEIGHT}}
+                                            source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
+                                        />
+                                    </TouchableOpacity>
+                                }
+                            />
+
+                            <TouchableHighlight style={styles.addButton}
+                                                underlayColor='#ff7043' onPress={()=>{console.log('pressed')}}>
+                                <Text style={{fontSize: 50, color: 'white'}}>+</Text>
+                            </TouchableHighlight>
+                        </View>
+                </ScrollView>
         );
     }
 }
