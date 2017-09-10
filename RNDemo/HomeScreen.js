@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Constants} from "./Constants";
 import Orientation from 'react-native-orientation';
+import { TouchableHighlight } from 'react-native'
 
 export class HomeScreen extends Component {
 
@@ -61,25 +62,10 @@ export class HomeScreen extends Component {
         const { navigate } = this.props.navigation;
         imageBaseUrl = Constants.BASE_URL + 'image/' + Constants.USER_ID + '/'
         return(
-            <ScrollView>
-
-                <View style={styles.container}>
-
-                    <View style={styles.container}>
-                        <FlatList
-                            data={listData}
-                            renderItem={({item}) =>
-                                <TouchableOpacity onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
-                                    <Image
-                                        style={{width: this.WIDTH, height: this.HEIGHT}}
-                                        source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
-                                    />
-                                </TouchableOpacity>
-                            }
-                        />
-                    </View>
-                </View>
-            </ScrollView>
+            <TouchableHighlight style={styles.addButton}
+                                underlayColor='#ff7043' onPress={()=>{console.log('pressed')}}>
+                <Text style={{fontSize: 50, color: 'white'}}>+</Text>
+            </TouchableHighlight>
         );
     }
 }
@@ -101,4 +87,24 @@ const styles = StyleSheet.create({
         color: '#333333',
         marginBottom: 5,
     },
+    addButton: {
+        backgroundColor: '#ff5722',
+        borderColor: '#ff5722',
+        borderWidth: 1,
+        height: 100,
+        width: 100,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 20,
+        right:20,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 0
+        }
+    }
 });
