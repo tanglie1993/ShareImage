@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Constants} from "./Constants";
 import Orientation from 'react-native-orientation';
+import ImagePicker from 'react-native-image-picker';
 import { TouchableHighlight } from 'react-native'
 
 export class HomeScreen extends Component {
@@ -82,7 +83,20 @@ export class HomeScreen extends Component {
                 <TouchableHighlight
                     style={styles.addButton}
                     underlayColor='#ff7043'
-                    onPress={()=>{console.log('pressed')}}>
+                    onPress={()=>{
+                        options = {
+                            title: 'Select Avatar',
+                            customButtons: [
+                                {name: 'fb', title: 'Choose Photo from Facebook'},
+                            ],
+                            storageOptions: {
+                                skipBackup: true,
+                                path: 'images'
+                            }
+                        };
+                        ImagePicker.showImagePicker(options, (response)  => {
+                        // Same code as in above section!
+                    });}}>
                     <Text style={{fontSize: 50, color: 'white'}}>+</Text>
                 </TouchableHighlight>
             </View>
