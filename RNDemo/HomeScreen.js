@@ -95,7 +95,7 @@ export class HomeScreen extends Component {
                             }
                         };
                         ImagePicker.showImagePicker(options, (response)  => {
-                        // Same code as in above section!
+                            navigate('Upload', {param: response.uri})
                     });}}>
                     <Text style={{fontSize: 50, color: 'white'}}>+</Text>
                 </TouchableHighlight>
