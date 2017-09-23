@@ -73,7 +73,12 @@ export class HomeScreen extends Component {
                                     <View style={styles.listItem}>
                                         <TouchableHighlight onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
                                             <Image
-                                                style={{width: item.imageWidth, height: item.imageHeight}}
+                                                style={{
+                                                    width: SCREEN_WIDTH,
+                                                    height: 200,
+                                                    resizeMode: 'cover',
+                                                    marginTop:10,
+                                                    marginBottom:10}}
                                                 source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
                                                 />
                                         </TouchableHighlight>
