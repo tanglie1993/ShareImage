@@ -115,6 +115,8 @@ public class ImageController {
             ImageEntity image = imageEntityMap.get(postEntity.getImageId());
             if(image != null){
                 postView.setImageUrl("" + image.getTimestamp());
+                postView.setImageWidth(image.getWidth());
+                postView.setImageHeight(image.getHeight());
             }
             postViewList.add(postView);
         }

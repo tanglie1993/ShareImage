@@ -8,6 +8,8 @@ public class PostView {
     private int userSex;
     private String text;
     private String imageUrl;
+    private int imageWidth;
+    private int imageHeight;
 
     public long getTimeStamp() {
         return timeStamp;
@@ -55,5 +57,21 @@ public class PostView {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
     }
 }

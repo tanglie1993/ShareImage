@@ -5,10 +5,11 @@ import Orientation from 'react-native-orientation';
 import ImagePicker from 'react-native-image-picker';
 import { TouchableHighlight } from 'react-native'
 
-export class HomeScreen extends Component {
+HEIGHT = 100;
+WIDTH = 100;
+SCREEN_WIDTH = require('Dimensions').get('window').width;
 
-    HEIGHT = 100;
-    WIDTH = 100;
+export class HomeScreen extends Component {
 
     static navigationOptions = {
         title: 'Welcome',
@@ -69,12 +70,14 @@ export class HomeScreen extends Component {
                             <FlatList
                                 data={listData}
                                 renderItem={({item}) =>
-                                    <TouchableOpacity onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
-                                        <Image
-                                            style={{width: this.WIDTH, height: this.HEIGHT}}
-                                            source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
-                                        />
-                                    </TouchableOpacity>
+                                    <View style={styles.listItem}>
+                                        <TouchableHighlight onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
+                                            <Image
+                                                style={{width: item.imageWidth, height: item.imageHeight}}
+                                                source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
+                                                />
+                                        </TouchableHighlight>
+                                    </View>
                                 }
                             />
                         </View>
@@ -110,6 +113,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    listItem: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#123456',
     },
     welcome: {
         fontSize: 20,
