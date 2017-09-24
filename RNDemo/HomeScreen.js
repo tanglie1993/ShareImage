@@ -27,8 +27,7 @@ export class HomeScreen extends Component {
         Orientation.lockToPortrait();
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         fetch(Constants.BASE_URL + 'imageList?user_id=' + Constants.USER_ID)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -41,16 +40,14 @@ export class HomeScreen extends Component {
             });
     }
 
-    render()
-    {
+    render(){
         if (!this.state.listData) {
             return this.renderLoadingView();
         }
         return this.renderContent(this.state.listData);
     }
 
-    renderLoadingView()
-    {
+    renderLoadingView(){
         return (
             <View style={styles.container}>
                 <Text>
@@ -58,6 +55,10 @@ export class HomeScreen extends Component {
                 </Text>
             </View>
         );
+    }
+
+    like(){
+        console.log("like")
     }
 
     renderContent(listData) {
@@ -74,14 +75,34 @@ export class HomeScreen extends Component {
                                         <TouchableHighlight onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
                                             <Image
                                                 style={{
-                                                    width: SCREEN_WIDTH,
+                                                    width: SCREEN_WIDTH - 22,
                                                     height: 200,
-                                                    resizeMode: 'cover',
-                                                    marginTop:10,
-                                                    marginBottom:10}}
+                                                    resizeMode: 'cover'}}
                                                 source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
                                                 />
                                         </TouchableHighlight>
+
+                                        <View
+                                            style={{
+                                                width: SCREEN_WIDTH - 22,
+                                                height: 50,
+                                                flexDirection: 'row'}}>
+
+                                            <TouchableHighlight style={styles.listItemButton}>
+                                                <Text  style={styles.listItemButtonText}>
+                                                    test
+                                                </Text>
+                                            </TouchableHighlight>
+
+                                            <View style={styles.listItemDivider}/>
+
+                                            <TouchableHighlight style={styles.listItemButton}>
+                                                <Text  style={styles.listItemButtonText}>
+                                                    test
+                                                </Text>
+                                            </TouchableHighlight>
+
+                                    </View>
                                     </View>
                                 }
                             />
@@ -117,13 +138,32 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
     },
     listItem: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#123456',
+        margin:10,
+        borderWidth: 1,
+        borderColor: "#123456",
+    },
+    listItemButton:{
+        width: SCREEN_WIDTH / 2 - 12,
+        borderColor: "#808080",
+        borderTopWidth: 1,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:"#ffffff"
+    },
+    listItemButtonText:{
+        color :'#000000',
+        fontSize: 25
+    },
+    listItemDivider:{
+        width: 1,
+        backgroundColor: "#808080",
+        height: 50
     },
     welcome: {
         fontSize: 20,
