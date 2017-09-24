@@ -82,6 +82,12 @@ export class HomeScreen extends Component {
                                                 />
                                         </TouchableHighlight>
 
+                                        <View style={{
+                                            width: SCREEN_WIDTH - 22,
+                                            backgroundColor: "#808080",
+                                            height: 1
+                                        }}/>
+
                                         <View
                                             style={{
                                                 width: SCREEN_WIDTH - 22,
@@ -94,7 +100,11 @@ export class HomeScreen extends Component {
                                                 </Text>
                                             </TouchableHighlight>
 
-                                            <View style={styles.listItemDivider}/>
+                                            <View style={{
+                                                width: 1,
+                                                backgroundColor: "#808080",
+                                                height: 50
+                                            }}/>
 
                                             <TouchableHighlight style={styles.listItemButton}>
                                                 <Text  style={styles.listItemButtonText}>
@@ -102,7 +112,7 @@ export class HomeScreen extends Component {
                                                 </Text>
                                             </TouchableHighlight>
 
-                                    </View>
+                                        </View>
                                     </View>
                                 }
                             />
@@ -150,8 +160,7 @@ const styles = StyleSheet.create({
     listItemButton:{
         width: SCREEN_WIDTH / 2 - 12,
         borderColor: "#808080",
-        borderTopWidth: 1,
-        height: 50,
+        height: 49,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:"#ffffff"
@@ -159,11 +168,6 @@ const styles = StyleSheet.create({
     listItemButtonText:{
         color :'#000000',
         fontSize: 25
-    },
-    listItemDivider:{
-        width: 1,
-        backgroundColor: "#808080",
-        height: 50
     },
     welcome: {
         fontSize: 20,
