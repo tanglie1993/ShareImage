@@ -21,8 +21,8 @@ export class HomeScreen extends Component {
         super(props);
         this.state = {
             listData : null,
-            message: '',
-            promptVisible: false
+            promptVisible: false,
+            selectedPost : null
         };
     }
 
@@ -111,7 +111,11 @@ export class HomeScreen extends Component {
                                                 height: 50
                                             }}/>
 
-                                            <TouchableHighlight style={styles.listItemButton} onPress={() => this.setState({ promptVisible: true })}>
+                                            <TouchableHighlight
+                                                style={styles.listItemButton}
+                                                onPress={() => {
+                                                    this.setState({ promptVisible: true, selectedPost: item.id})
+                                                }}>
                                                 <Text  style={styles.listItemButtonText}>
                                                     Comment
                                                 </Text>
@@ -160,10 +164,36 @@ export class HomeScreen extends Component {
                     placeholder="Start typing"
                     defaultValue="Hello"
                     visible={this.state.promptVisible}
-                    onCancel={() => this.setState({ promptVisible: false, message: "You cancelled" })}
-                    onSubmit={(value) => this.setState({ promptVisible: false, message: `You said "${value}"` })}/>
+                    onCancel={() => this.setState({ promptVisible: false })}
+                    onSubmit={(value) => {
+                            this.setState({ promptVisible: false });
+                            this.upload(value)
+                        }
+                    }/>
             </View>
         );
+    }
+
+    upload(param){
+        fetch(Constants.BASE_URL + "comment", {
+                method: "post",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    postId: parseInt(this.state.selectedPost),
+                    userId: '42',
+                    comment: param
+                })
+            }
+        )
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(JSON.stringify(responseData))
+            }).catch((error) => {
+            console.warn(error);
+        });
     }
 }
 

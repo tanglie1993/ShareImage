@@ -70,19 +70,17 @@ public class ImageController {
 
     @RequestMapping(value = "comment", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> upload(@RequestParam(value = "id", required = true) Integer postId,
-                         @RequestParam(value = "user_id", required = true) Integer userId,
-                         @RequestParam(value = "comment", required = false) String comment){
-        PostEntity postEntity = postsDao.findById(postId);
+    public Map<String, String> upload(@RequestBody UploadComment comment){
+        PostEntity postEntity = postsDao.findById(comment.getPostId());
         if(postEntity == null){
             Map<String, String> result = new HashMap<>();
             result.put("result", "post does not exist");
             return result;
         }
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setContent(comment);
-        commentEntity.setPostId(postId);
-        commentEntity.setUserId(userId);
+        commentEntity.setContent(comment.getComment());
+        commentEntity.setPostId(comment.getPostId());
+        commentEntity.setUserId(comment.getUserId());
         commentEntity.setTimestamp(System.currentTimeMillis());
         commentsDao.save(commentEntity);
         Map<String, String> result = new HashMap<>();
@@ -146,6 +144,7 @@ public class ImageController {
             postView.setUserAvatar("" + userEntity.getAvatarId());
             postView.setUserName(userEntity.getNickname());
             postView.setUserSex(userEntity.getGender());
+            postView.setId(postEntity.getId());
             ImageEntity image = imageEntityMap.get(postEntity.getImageId());
             if(image != null){
                 postView.setImageUrl("" + image.getTimestamp());

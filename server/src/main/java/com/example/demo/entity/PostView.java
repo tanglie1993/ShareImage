@@ -13,6 +13,7 @@ public class PostView {
     private String imageUrl;
     private int imageWidth;
     private int imageHeight;
+    private int id;
     private List<String> comments = new ArrayList<>();
 
     public long getTimeStamp() {
@@ -85,5 +86,13 @@ public class PostView {
 
     public void setComments(List<String> comments) {
         this.comments = comments;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
