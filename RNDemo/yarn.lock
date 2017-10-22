@@ -3122,6 +3122,14 @@ react-native-orientation@^3.0.0:
   version "3.1.0"
   resolved "http://registry.npm.taobao.org/react-native-orientation/download/react-native-orientation-3.1.0.tgz#ce470fe44a9a47df5be4995b01a1089d3f4a033e"
 
+react-native-prompt@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/react-native-prompt/download/react-native-prompt-1.0.0.tgz#41e0ec2aa7dd8f12f3a3ee83af9d63c4b670f8a1"
+
+react-native-swRefresh@^1.2.3:
+  version "1.2.3"
+  resolved "http://registry.npm.taobao.org/react-native-swRefresh/download/react-native-swRefresh-1.2.3.tgz#84fa925cc13322812251c023f331dbfd5c03095a"
+
 react-native-tab-view@^0.0.65:
   version "0.0.65"
   resolved "http://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-0.0.65.tgz#b685ea3081ff7c96486cd997361026c407302c59"

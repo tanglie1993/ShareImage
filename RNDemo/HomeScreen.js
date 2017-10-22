@@ -3,7 +3,8 @@ import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} f
 import {Constants} from "./Constants";
 import Orientation from 'react-native-orientation';
 import ImagePicker from 'react-native-image-picker';
-import { TouchableHighlight } from 'react-native'
+import { TouchableHighlight } from 'react-native';
+import Prompt from 'react-native-prompt';
 
 HEIGHT = 100;
 WIDTH = 100;
@@ -16,12 +17,12 @@ export class HomeScreen extends Component {
         title: 'Welcome',
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            listData : null
-        };
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         listData : null
+    //     };
+    // }
 
     componentWillMount() {
         // 只允许竖屏
@@ -41,11 +42,36 @@ export class HomeScreen extends Component {
             });
     }
 
-    render(){
-        if (!this.state.listData) {
-            return this.renderLoadingView();
-        }
-        return this.renderContent(this.state.listData);
+    constructor(props) {
+        super(props);
+        this.state = {
+            listData : null,
+            message: '',
+            promptVisible: false
+        };
+    }
+    render() {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ height: 80, justifyContent: 'flex-end' }}>
+                    <Text style={{ fontSize: 20 }} onPress={() => this.setState({ promptVisible: true })}>
+                        Open prompt
+                    </Text>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 20 }}>
+                        {this.state.message}
+                    </Text>
+                </View>
+                <Prompt
+                    title="Say something"
+                    placeholder="Start typing"
+                    defaultValue="Hello"
+                    visible={this.state.promptVisible}
+                    onCancel={() => this.setState({ promptVisible: false, message: "You cancelled" })}
+                    onSubmit={(value) => this.setState({ promptVisible: false, message: `You said "${value}"` })}/>
+            </View>
+        );
     }
 
     renderLoadingView(){
