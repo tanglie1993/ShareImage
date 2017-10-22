@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface PostsDao extends CrudRepository<PostEntity, Long> {
     List<PostEntity> findByUserId(Integer userId);
+    PostEntity findById(Integer id);
     List<PostEntity> findAll();
-    PostEntity findByUserIdAndTimestamp(Integer userId, Long timestamp);
 
     @Query(value="select image_id from posts", nativeQuery=true)
     List<Integer> findAllImageIds();

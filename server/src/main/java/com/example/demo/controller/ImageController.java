@@ -68,6 +68,28 @@ public class ImageController {
         return "上传失败";
     }
 
+    @RequestMapping(value = "comment", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> upload(@RequestParam(value = "id", required = true) Integer postId,
+                         @RequestParam(value = "user_id", required = true) Integer userId,
+                         @RequestParam(value = "comment", required = false) String comment){
+        PostEntity postEntity = postsDao.findById(postId);
+        if(postEntity == null){
+            Map<String, String> result = new HashMap<>();
+            result.put("result", "post does not exist");
+            return result;
+        }
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setContent(comment);
+        commentEntity.setPostId(postId);
+        commentEntity.setUserId(userId);
+        commentEntity.setTimestamp(System.currentTimeMillis());
+        commentsDao.save(commentEntity);
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return result;
+    }
+
     private void saveToDatabase(@RequestParam(value = "user_id", required = true) Integer userId, Long timestamp, File dest) throws IOException {
         ImageEntity entity = new ImageEntity();
         entity.setUserId(userId);
