@@ -7,10 +7,10 @@ import javax.persistence.*;
 public class UserEntity {
     private String nickname;
     private int id;
-    private int avatarId;
     private String introduction;
-    private long registerTimestamp;
-    private byte gender;
+    private Byte gender;
+    private Integer avatarId;
+    private Long registerTimestamp;
 
     @Basic
     @Column(name = "nickname")
@@ -33,16 +33,6 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "avatar_id")
-    public int getAvatarId() {
-        return avatarId;
-    }
-
-    public void setAvatarId(int avatarId) {
-        this.avatarId = avatarId;
-    }
-
-    @Basic
     @Column(name = "introduction")
     public String getIntroduction() {
         return introduction;
@@ -53,23 +43,33 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "register_timestamp")
-    public long getRegisterTimestamp() {
-        return registerTimestamp;
-    }
-
-    public void setRegisterTimestamp(long registerTimestamp) {
-        this.registerTimestamp = registerTimestamp;
-    }
-
-    @Basic
     @Column(name = "gender")
-    public byte getGender() {
+    public Byte getGender() {
         return gender;
     }
 
-    public void setGender(byte gender) {
+    public void setGender(Byte gender) {
         this.gender = gender;
+    }
+
+    @Basic
+    @Column(name = "avatarId")
+    public Integer getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(Integer avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    @Basic
+    @Column(name = "registerTimestamp")
+    public Long getRegisterTimestamp() {
+        return registerTimestamp;
+    }
+
+    public void setRegisterTimestamp(Long registerTimestamp) {
+        this.registerTimestamp = registerTimestamp;
     }
 
     @Override
@@ -80,6 +80,12 @@ public class UserEntity {
         UserEntity that = (UserEntity) o;
 
         if (id != that.id) return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        if (introduction != null ? !introduction.equals(that.introduction) : that.introduction != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (avatarId != null ? !avatarId.equals(that.avatarId) : that.avatarId != null) return false;
+        if (registerTimestamp != null ? !registerTimestamp.equals(that.registerTimestamp) : that.registerTimestamp != null)
+            return false;
 
         return true;
     }
@@ -88,10 +94,10 @@ public class UserEntity {
     public int hashCode() {
         int result = nickname != null ? nickname.hashCode() : 0;
         result = 31 * result + id;
-        result = 31 * result + avatarId;
         result = 31 * result + (introduction != null ? introduction.hashCode() : 0);
-        result = 31 * result + (int) (registerTimestamp ^ (registerTimestamp >>> 32));
-        result = 31 * result + (int) gender;
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (avatarId != null ? avatarId.hashCode() : 0);
+        result = 31 * result + (registerTimestamp != null ? registerTimestamp.hashCode() : 0);
         return result;
     }
 }

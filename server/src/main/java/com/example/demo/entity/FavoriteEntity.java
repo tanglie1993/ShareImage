@@ -10,7 +10,7 @@ public class FavoriteEntity {
     private int postId;
     private int userId;
 
-    @Basic
+    @Id
     @Column(name = "timestamp")
     public long getTimestamp() {
         return timestamp;
@@ -20,7 +20,7 @@ public class FavoriteEntity {
         this.timestamp = timestamp;
     }
 
-    @Id
+    @Basic
     @Column(name = "id")
     public int getId() {
         return id;
@@ -31,7 +31,7 @@ public class FavoriteEntity {
     }
 
     @Basic
-    @Column(name = "post_id")
+    @Column(name = "postId")
     public int getPostId() {
         return postId;
     }
@@ -41,7 +41,7 @@ public class FavoriteEntity {
     }
 
     @Basic
-    @Column(name = "user_id")
+    @Column(name = "userId")
     public int getUserId() {
         return userId;
     }
@@ -57,7 +57,10 @@ public class FavoriteEntity {
 
         FavoriteEntity that = (FavoriteEntity) o;
 
+        if (timestamp != that.timestamp) return false;
         if (id != that.id) return false;
+        if (postId != that.postId) return false;
+        if (userId != that.userId) return false;
 
         return true;
     }

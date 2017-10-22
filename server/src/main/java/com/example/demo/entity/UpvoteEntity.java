@@ -21,7 +21,7 @@ public class UpvoteEntity {
     }
 
     @Basic
-    @Column(name = "post_id")
+    @Column(name = "postId")
     public int getPostId() {
         return postId;
     }
@@ -31,7 +31,7 @@ public class UpvoteEntity {
     }
 
     @Basic
-    @Column(name = "user_id")
+    @Column(name = "userId")
     public int getUserId() {
         return userId;
     }
@@ -57,6 +57,9 @@ public class UpvoteEntity {
 
         UpvoteEntity that = (UpvoteEntity) o;
 
+        if (timestamp != that.timestamp) return false;
+        if (postId != that.postId) return false;
+        if (userId != that.userId) return false;
         if (id != that.id) return false;
 
         return true;

@@ -5,23 +5,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "images", schema = "tanglie", catalog = "")
 public class ImageEntity {
-    private Integer userId;
     private int id;
-    private Long timestamp;
-    private Long bytes;
-    private Integer width;
-    private Integer height;
+    private long timestamp;
+    private double bytes;
+    private int width;
+    private int height;
     private String format;
-
-    @Basic
-    @Column(name = "user_id")
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+    private Integer userId;
 
     @Id
     @Column(name = "id")
@@ -35,41 +25,41 @@ public class ImageEntity {
 
     @Basic
     @Column(name = "timestamp")
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
     @Basic
     @Column(name = "bytes")
-    public Long getBytes() {
+    public double getBytes() {
         return bytes;
     }
 
-    public void setBytes(Long bytes) {
+    public void setBytes(double bytes) {
         this.bytes = bytes;
     }
 
     @Basic
     @Column(name = "width")
-    public Integer getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
     @Basic
     @Column(name = "height")
-    public Integer getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -83,6 +73,16 @@ public class ImageEntity {
         this.format = format;
     }
 
+    @Basic
+    @Column(name = "user_id")
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,32 +91,28 @@ public class ImageEntity {
         ImageEntity that = (ImageEntity) o;
 
         if (id != that.id) return false;
+        if (timestamp != that.timestamp) return false;
+        if (Double.compare(that.bytes, bytes) != 0) return false;
+        if (width != that.width) return false;
+        if (height != that.height) return false;
+        if (format != null ? !format.equals(that.format) : that.format != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userId != null ? userId.hashCode() : 0;
-        result = 31 * result + id;
-        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
-        result = 31 * result + (bytes != null ? bytes.hashCode() : 0);
-        result = 31 * result + (width != null ? width.hashCode() : 0);
-        result = 31 * result + (height != null ? height.hashCode() : 0);
+        int result;
+        long temp;
+        result = id;
+        result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
+        temp = Double.doubleToLongBits(bytes);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + width;
+        result = 31 * result + height;
         result = 31 * result + (format != null ? format.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ImageEntity{" +
-                "userId=" + userId +
-                ", id=" + id +
-                ", timestamp=" + timestamp +
-                ", bytes=" + bytes +
-                ", width=" + width +
-                ", height=" + height +
-                ", format='" + format + '\'' +
-                '}';
     }
 }

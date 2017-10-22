@@ -15,7 +15,6 @@ public class PostEntity {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
     public int getId() {
         return id;
     }
@@ -25,7 +24,7 @@ public class PostEntity {
     }
 
     @Basic
-    @Column(name = "image_id")
+    @Column(name = "imageId")
     public Integer getImageId() {
         return imageId;
     }
@@ -45,7 +44,7 @@ public class PostEntity {
     }
 
     @Basic
-    @Column(name = "save_count")
+    @Column(name = "saveCount")
     public Integer getSaveCount() {
         return saveCount;
     }
@@ -55,7 +54,7 @@ public class PostEntity {
     }
 
     @Basic
-    @Column(name = "upvote_count")
+    @Column(name = "upvoteCount")
     public Integer getUpvoteCount() {
         return upvoteCount;
     }
@@ -75,7 +74,7 @@ public class PostEntity {
     }
 
     @Basic
-    @Column(name = "user_id")
+    @Column(name = "userId")
     public Integer getUserId() {
         return userId;
     }
@@ -92,6 +91,12 @@ public class PostEntity {
         PostEntity that = (PostEntity) o;
 
         if (id != that.id) return false;
+        if (imageId != null ? !imageId.equals(that.imageId) : that.imageId != null) return false;
+        if (text != null ? !text.equals(that.text) : that.text != null) return false;
+        if (saveCount != null ? !saveCount.equals(that.saveCount) : that.saveCount != null) return false;
+        if (upvoteCount != null ? !upvoteCount.equals(that.upvoteCount) : that.upvoteCount != null) return false;
+        if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
 
         return true;
     }
