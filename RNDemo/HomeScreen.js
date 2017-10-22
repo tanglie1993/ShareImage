@@ -7,6 +7,7 @@ import { TouchableHighlight } from 'react-native'
 
 HEIGHT = 100;
 WIDTH = 100;
+ITEM_HORIZONTAL_MARGIN = 10;
 SCREEN_WIDTH = require('Dimensions').get('window').width;
 
 export class HomeScreen extends Component {
@@ -64,6 +65,7 @@ export class HomeScreen extends Component {
     renderContent(listData) {
         const { navigate } = this.props.navigation;
         imageBaseUrl = Constants.BASE_URL + 'image/' + Constants.USER_ID + '/'
+        commentData = ["aaaaa", "sssss", "ssssa"];
         return(
             <View>
                 <ScrollView>
@@ -75,7 +77,7 @@ export class HomeScreen extends Component {
                                         <TouchableHighlight onPress={() => navigate('Detail', {param:  imageBaseUrl + item.imageUrl + '.png'})}>
                                             <Image
                                                 style={{
-                                                    width: SCREEN_WIDTH - 22,
+                                                    width: SCREEN_WIDTH - 2 * ITEM_HORIZONTAL_MARGIN - 2,
                                                     height: 200,
                                                     resizeMode: 'cover'}}
                                                 source={{uri: imageBaseUrl + item.imageUrl + '.png'}}
@@ -83,14 +85,14 @@ export class HomeScreen extends Component {
                                         </TouchableHighlight>
 
                                         <View style={{
-                                            width: SCREEN_WIDTH - 22,
+                                            width: SCREEN_WIDTH - ITEM_HORIZONTAL_MARGIN * 2 - 2,
                                             backgroundColor: "#808080",
                                             height: 1
                                         }}/>
 
                                         <View
                                             style={{
-                                                width: SCREEN_WIDTH - 22,
+                                                width: SCREEN_WIDTH - ITEM_HORIZONTAL_MARGIN * 2 - 2,
                                                 height: 50,
                                                 flexDirection: 'row'}}>
 
@@ -113,6 +115,17 @@ export class HomeScreen extends Component {
                                             </TouchableHighlight>
 
                                         </View>
+
+                                        <FlatList
+                                            data={commentData}
+                                            renderItem={({item}) =>
+                                                <View  style={styles.commentItem}>
+                                                    <Text  style={styles.listItemButtonText}>
+                                                        {item}
+                                                    </Text>
+                                                </View>
+                                            }
+                                        />
                                     </View>
                                 }
                             />
@@ -157,8 +170,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#123456",
     },
+    commentItem: {
+        width: SCREEN_WIDTH - 2 * ITEM_HORIZONTAL_MARGIN - 2,
+        borderTopWidth: 1,
+        borderTopColor: "#123456",
+        justifyContent: 'flex-start'
+    },
     listItemButton:{
-        width: SCREEN_WIDTH / 2 - 12,
+        width: SCREEN_WIDTH / 2 - ITEM_HORIZONTAL_MARGIN - 2,
         borderColor: "#808080",
         height: 49,
         justifyContent: 'center',
