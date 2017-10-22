@@ -3,24 +3,15 @@ package com.example.demo.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "favorites", schema = "tanglie", catalog = "")
-public class FavoriteEntity {
-    private long timestamp;
+@Table(name = "comments", schema = "tanglie", catalog = "")
+public class CommentEntity {
     private int id;
+    private String content;
     private int postId;
     private int userId;
+    private long timestamp;
 
     @Id
-    @Column(name = "timestamp")
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Basic
     @Column(name = "id")
     public int getId() {
         return id;
@@ -28,6 +19,16 @@ public class FavoriteEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "content")
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Basic
@@ -50,27 +51,39 @@ public class FavoriteEntity {
         this.userId = userId;
     }
 
+    @Basic
+    @Column(name = "timestamp")
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FavoriteEntity that = (FavoriteEntity) o;
+        CommentEntity that = (CommentEntity) o;
 
-        if (timestamp != that.timestamp) return false;
         if (id != that.id) return false;
         if (postId != that.postId) return false;
         if (userId != that.userId) return false;
+        if (timestamp != that.timestamp) return false;
+        if (content != null ? !content.equals(that.content) : that.content != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (timestamp ^ (timestamp >>> 32));
-        result = 31 * result + id;
+        int result = id;
+        result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + postId;
         result = 31 * result + userId;
+        result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
         return result;
     }
 }

@@ -1,13 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.constants.FileConstants;
+import com.example.demo.dao.CommentsDao;
 import com.example.demo.dao.ImagesDao;
 import com.example.demo.dao.PostsDao;
 import com.example.demo.dao.UsersDao;
-import com.example.demo.entity.ImageEntity;
-import com.example.demo.entity.PostEntity;
-import com.example.demo.entity.PostView;
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.*;
 import com.example.demo.service.ThumbnailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -32,6 +30,9 @@ public class ImageController {
 
     @Autowired
     UsersDao usersDao;
+
+    @Autowired
+    CommentsDao commentsDao;
 
     @Autowired
     ResourceLoader resourceLoader;
@@ -101,6 +102,17 @@ public class ImageController {
         for(ImageEntity entity : imagesDao.findByUserId(userId)){
             imageEntityMap.put(entity.getId(), entity);
         }
+        Map<Integer, List<CommentEntity>> commentEntityMap = new HashMap<>();
+        for(CommentEntity entity : commentsDao.findAll()){
+            List<CommentEntity> list;
+            if(commentEntityMap.containsKey(entity.getPostId())){
+               list = commentEntityMap.get(entity.getPostId());
+            }else {
+                list = new ArrayList<>();
+            }
+            list.add(entity);
+            commentEntityMap.put(entity.getPostId(), list);
+        }
         List<PostEntity> postEntityList = new ArrayList<>();
         postEntityList.addAll(postsDao.findByUserId(userId));
         UserEntity userEntity = usersDao.findById(userId);
@@ -117,6 +129,11 @@ public class ImageController {
                 postView.setImageUrl("" + image.getTimestamp());
                 postView.setImageWidth(image.getWidth());
                 postView.setImageHeight(image.getHeight());
+            }
+            if(commentEntityMap.containsKey(postEntity.getId())){
+                for(CommentEntity commentEntity : commentEntityMap.get(postEntity.getId())){
+                    postView.getComments().add(commentEntity.getContent());
+                }
             }
             postViewList.add(postView);
         }

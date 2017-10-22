@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PostView {
 
     private long timeStamp;
@@ -10,6 +13,7 @@ public class PostView {
     private String imageUrl;
     private int imageWidth;
     private int imageHeight;
+    private List<String> comments = new ArrayList<>();
 
     public long getTimeStamp() {
         return timeStamp;
@@ -73,5 +77,13 @@ public class PostView {
 
     public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
+    }
+
+    public List<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<String> comments) {
+        this.comments = comments;
     }
 }

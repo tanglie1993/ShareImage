@@ -117,7 +117,7 @@ export class HomeScreen extends Component {
                                         </View>
 
                                         <FlatList
-                                            data={commentData}
+                                            data={item.comments}
                                             renderItem={({item}) =>
                                                 <View  style={styles.commentItem}>
                                                     <Text  style={styles.listItemButtonText}>
