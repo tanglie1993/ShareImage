@@ -17,12 +17,14 @@ export class HomeScreen extends Component {
         title: 'Welcome',
     };
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         listData : null
-    //     };
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            listData : null,
+            message: '',
+            promptVisible: false
+        };
+    }
 
     componentWillMount() {
         // 只允许竖屏
@@ -42,36 +44,11 @@ export class HomeScreen extends Component {
             });
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            listData : null,
-            message: '',
-            promptVisible: false
-        };
-    }
-    render() {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <View style={{ height: 80, justifyContent: 'flex-end' }}>
-                    <Text style={{ fontSize: 20 }} onPress={() => this.setState({ promptVisible: true })}>
-                        Open prompt
-                    </Text>
-                </View>
-                <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 20 }}>
-                        {this.state.message}
-                    </Text>
-                </View>
-                <Prompt
-                    title="Say something"
-                    placeholder="Start typing"
-                    defaultValue="Hello"
-                    visible={this.state.promptVisible}
-                    onCancel={() => this.setState({ promptVisible: false, message: "You cancelled" })}
-                    onSubmit={(value) => this.setState({ promptVisible: false, message: `You said "${value}"` })}/>
-            </View>
-        );
+    render(){
+        if (!this.state.listData) {
+            return this.renderLoadingView();
+        }
+        return this.renderContent(this.state.listData);
     }
 
     renderLoadingView(){
@@ -134,9 +111,9 @@ export class HomeScreen extends Component {
                                                 height: 50
                                             }}/>
 
-                                            <TouchableHighlight style={styles.listItemButton}>
+                                            <TouchableHighlight style={styles.listItemButton} onPress={() => this.setState({ promptVisible: true })}>
                                                 <Text  style={styles.listItemButtonText}>
-                                                    test
+                                                    Comment
                                                 </Text>
                                             </TouchableHighlight>
 
@@ -177,6 +154,14 @@ export class HomeScreen extends Component {
                     });}}>
                     <Text style={{fontSize: 50, color: 'white'}}>+</Text>
                 </TouchableHighlight>
+
+                <Prompt
+                    title="Say something"
+                    placeholder="Start typing"
+                    defaultValue="Hello"
+                    visible={this.state.promptVisible}
+                    onCancel={() => this.setState({ promptVisible: false, message: "You cancelled" })}
+                    onSubmit={(value) => this.setState({ promptVisible: false, message: `You said "${value}"` })}/>
             </View>
         );
     }
