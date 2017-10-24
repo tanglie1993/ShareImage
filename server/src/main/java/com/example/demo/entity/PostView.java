@@ -15,6 +15,7 @@ public class PostView {
     private int imageHeight;
     private int id;
     private List<String> comments = new ArrayList<>();
+    private List<String> likes = new ArrayList<>();
 
     public long getTimeStamp() {
         return timeStamp;
@@ -94,5 +95,9 @@ public class PostView {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<String> getLikes() {
+        return likes;
     }
 }
