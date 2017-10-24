@@ -11,6 +11,7 @@ public class FavoriteEntity {
     private int userId;
 
     @Id
+    @GeneratedValue
     @Column(name = "timestamp")
     public long getTimestamp() {
         return timestamp;

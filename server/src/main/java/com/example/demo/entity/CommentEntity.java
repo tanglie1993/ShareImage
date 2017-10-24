@@ -12,6 +12,7 @@ public class CommentEntity {
     private long timestamp;
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     public int getId() {
         return id;

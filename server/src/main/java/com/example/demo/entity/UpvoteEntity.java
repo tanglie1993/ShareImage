@@ -11,6 +11,7 @@ public class UpvoteEntity {
     private int id;
 
     @Basic
+    @GeneratedValue
     @Column(name = "timestamp")
     public long getTimestamp() {
         return timestamp;

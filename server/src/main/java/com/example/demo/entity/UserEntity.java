@@ -23,6 +23,7 @@ public class UserEntity {
     }
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     public int getId() {
         return id;
