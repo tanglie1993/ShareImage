@@ -10,13 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 
 import static com.example.demo.util.Utils.mkdirs;
+import static com.example.demo.util.Utils.getImageEntity;
 
 @RestController
 public class ImageController {
@@ -60,7 +59,7 @@ public class ImageController {
         try {
             thumbnailService.generateThumbnail(file, userId, timestamp);
             file.transferTo(dest);
-            saveToDatabase(userId, timestamp, dest);
+            imagesDao.save(getImageEntity(userId, timestamp, dest));
             return "上传成功";
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -107,23 +106,6 @@ public class ImageController {
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
-    }
-
-    private void saveToDatabase(@RequestParam(value = "user_id", required = true) Integer userId, Long timestamp, File dest) throws IOException {
-        ImageEntity entity = new ImageEntity();
-        entity.setUserId(userId);
-        entity.setTimestamp(timestamp);
-        String[] splitedName = dest.getName().split("\\.");
-        if(splitedName.length > 0){
-            entity.setFormat(splitedName[splitedName.length - 1]);
-        }else{
-            entity.setFormat("unknown");
-        }
-        BufferedImage sourceImg = ImageIO.read(new FileInputStream(dest));
-        entity.setWidth(sourceImg.getWidth());
-        entity.setHeight(sourceImg.getHeight());
-        entity.setBytes(dest.length());
-        imagesDao.save(entity);
     }
 
     @RequestMapping(value = "/imageList", method = RequestMethod.GET)

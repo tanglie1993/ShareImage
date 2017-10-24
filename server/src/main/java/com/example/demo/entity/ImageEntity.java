@@ -14,6 +14,7 @@ public class ImageEntity {
     private Integer userId;
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     public int getId() {
         return id;
