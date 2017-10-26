@@ -16,4 +16,6 @@ public interface PostsDao extends CrudRepository<PostEntity, Long> {
 
     @Query(value="select image_id from posts", nativeQuery=true)
     List<Integer> findAllImageIds();
+
+    PostEntity findByImageId(int id);
 }

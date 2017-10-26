@@ -1,11 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dao.ImagesDao;
-import com.example.demo.dao.PostsDao;
-import com.example.demo.dao.UsersDao;
-import com.example.demo.entity.ImageEntity;
-import com.example.demo.entity.PostEntity;
-import com.example.demo.entity.UserEntity;
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
 import com.example.demo.service.ThumbnailService;
 import com.example.demo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +18,12 @@ import static com.example.demo.util.Utils.mkdirs;
 public class InsertDataController {
 
     @Autowired
-    ImagesDao imagesDao;
-    @Autowired
     WebApplicationContext context;
+
     @Autowired
     ThumbnailService thumbnailService;
+
+    int[] users = {42, 43};
 
     @RequestMapping(value = "insertMissingUsers", method = RequestMethod.POST)
     @ResponseBody
@@ -76,16 +73,83 @@ public class InsertDataController {
     @RequestMapping(value = "generateRandomData", method = RequestMethod.POST)
     @ResponseBody
     public String generateRandomData() {
-        List<ImageEntity> entityList = new ArrayList<>();
+        List<ImageEntity> imageList = new ArrayList<>();
         for(int i = 0; i < 3; i++){
-            entityList.add(uploadRandomPic(i));
+            imageList.add(uploadRandomPic(i));
         }
-        imagesDao.save(entityList);
+        context.getBean(ImagesDao.class).save(imageList);
+        context.getBean(PostsDao.class).save(generatePostList(imageList));
+        context.getBean(CommentsDao.class).save(generateRandomComments(imageList));
+        context.getBean(LikesDao.class).save(generateRandomLikes(imageList));
         return "";
     }
 
+    private List<LikeEntity> generateRandomLikes(List<ImageEntity> imageList) {
+        List<LikeEntity> result = new ArrayList<>();
+        Map<Integer, PostEntity> posts = new HashMap<>();
+        for(ImageEntity imageEntity : imageList){
+            PostEntity postEntity = context.getBean(PostsDao.class).findByImageId(imageEntity.getId());
+            if(postEntity != null){
+                posts.put(postEntity.getImageId(), postEntity);
+            }
+        }
+        for(ImageEntity image : imageList){
+            if(new Random().nextInt(2) == 0){
+                LikeEntity likeEntity = new LikeEntity();
+                likeEntity.setPostId(posts.get(image.getId()).getId());
+                likeEntity.setTimestamp(System.currentTimeMillis());
+                likeEntity.setUserId(users[0]);
+                result.add(likeEntity);
+            }
+            if(new Random().nextInt(2) == 1){
+                LikeEntity likeEntity = new LikeEntity();
+                likeEntity.setPostId(posts.get(image.getId()).getId());
+                likeEntity.setTimestamp(System.currentTimeMillis());
+                likeEntity.setUserId(users[1]);
+                result.add(likeEntity);
+            }
+        }
+        return result;
+    }
+
+    private List<CommentEntity> generateRandomComments(List<ImageEntity> imageList) {
+        List<CommentEntity> result = new ArrayList<>();
+        Map<Integer, PostEntity> posts = new HashMap<>();
+        for(ImageEntity imageEntity : imageList){
+            PostEntity postEntity = context.getBean(PostsDao.class).findByImageId(imageEntity.getId());
+            if(postEntity != null){
+                posts.put(postEntity.getImageId(), postEntity);
+            }
+        }
+        for(ImageEntity image : imageList){
+            int upperLimit = new Random().nextInt(3);
+            for(int i = 0; i < upperLimit; i++){
+                CommentEntity entity = new CommentEntity();
+                entity.setTimestamp(System.currentTimeMillis() - i * 10);
+                entity.setUserId(users[new Random().nextInt(2)]);
+                entity.setPostId(posts.get(image.getId()).getId());
+                entity.setContent("Random comment " + i);
+                result.add(entity);
+            }
+        }
+        return result;
+    }
+
+    private List<PostEntity> generatePostList(List<ImageEntity> imageList) {
+        List<PostEntity> result = new ArrayList<>();
+        for(ImageEntity image : imageList){
+            PostEntity entity = new PostEntity();
+            entity.setImageId(image.getId());
+            entity.setText("this is comment for pic " + image.getId());
+            entity.setTimestamp(System.currentTimeMillis());
+            entity.setUserId(image.getUserId());
+            result.add(entity);
+        }
+        return result;
+    }
+
     private ImageEntity uploadRandomPic(int index) {
-        int[] users = {42, 43};
+
         String[] picture = {ROOT_IMAGES + "flower.png", ROOT_IMAGES + "lena.png"};
         int userId = users[new Random().nextInt(2)];
         String picturePath = picture[new Random().nextInt(2)];

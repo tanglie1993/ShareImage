@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -21,19 +22,7 @@ import static com.example.demo.util.Utils.getImageEntity;
 public class ImageController {
 
     @Autowired
-    ImagesDao imagesDao;
-
-    @Autowired
-    PostsDao postsDao;
-
-    @Autowired
-    UsersDao usersDao;
-
-    @Autowired
-    CommentsDao commentsDao;
-
-    @Autowired
-    LikesDao likesDao;
+    WebApplicationContext context;
 
     @Autowired
     ResourceLoader resourceLoader;
@@ -59,7 +48,7 @@ public class ImageController {
         try {
             thumbnailService.generateThumbnail(file, userId, timestamp);
             file.transferTo(dest);
-            imagesDao.save(getImageEntity(userId, timestamp, dest));
+            context.getBean(ImagesDao.class).save(getImageEntity(userId, timestamp, dest));
             return "上传成功";
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -72,7 +61,7 @@ public class ImageController {
     @RequestMapping(value = "comment", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> uploadComment(@RequestBody UploadComment comment){
-        PostEntity postEntity = postsDao.findById(comment.getPostId());
+        PostEntity postEntity = context.getBean(PostsDao.class).findById(comment.getPostId());
         if(postEntity == null){
             Map<String, String> result = new HashMap<>();
             result.put("result", "post does not exist");
@@ -83,7 +72,7 @@ public class ImageController {
         commentEntity.setPostId(comment.getPostId());
         commentEntity.setUserId(comment.getUserId());
         commentEntity.setTimestamp(System.currentTimeMillis());
-        commentsDao.save(commentEntity);
+        context.getBean(CommentsDao.class).save(commentEntity);
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
@@ -92,7 +81,7 @@ public class ImageController {
     @RequestMapping(value = "like", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> uploadLike(@RequestBody UploadLike like){
-        PostEntity postEntity = postsDao.findById(like.getPostId());
+        PostEntity postEntity = context.getBean(PostsDao.class).findById(like.getPostId());
         if(postEntity == null){
             Map<String, String> result = new HashMap<>();
             result.put("result", "post does not exist");
@@ -102,7 +91,7 @@ public class ImageController {
         likeEntity.setPostId(like.getPostId());
         likeEntity.setUserId(like.getUserId());
         likeEntity.setTimestamp(System.currentTimeMillis());
-        likesDao.save(likeEntity);
+        context.getBean(LikesDao.class).save(likeEntity);
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
@@ -112,15 +101,15 @@ public class ImageController {
     public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
         Map<String, Object> result = new HashMap<>();
         Map<Integer, ImageEntity> imageEntityMap = new HashMap();
-        for(ImageEntity entity : imagesDao.findByUserId(userId)){
+        for(ImageEntity entity : context.getBean(ImagesDao.class).findByUserId(userId)){
             imageEntityMap.put(entity.getId(), entity);
         }
         Map<Integer, List<CommentEntity>> commentEntityMap = getCommentsMap();
         Map<Integer, List<LikeEntity>> likeEntityMap = getLikesMap();
         Map<Integer, UserEntity> userEntityMap = getUserMap();
         List<PostEntity> postEntityList = new ArrayList<>();
-        postEntityList.addAll(postsDao.findByUserId(userId));
-        UserEntity userEntity = usersDao.findById(userId);
+        postEntityList.addAll(context.getBean(PostsDao.class).findByUserId(userId));
+        UserEntity userEntity = context.getBean(UsersDao.class).findById(userId);
         List<PostView> postViewList = new ArrayList<>();
         for(PostEntity postEntity : postEntityList){
             PostView postView = new PostView();
@@ -154,7 +143,7 @@ public class ImageController {
 
     private Map<Integer, UserEntity> getUserMap() {
         Map<Integer, UserEntity> userEntityMap = new HashMap<>();
-        for(UserEntity user : usersDao.findAll()){
+        for(UserEntity user : context.getBean(UsersDao.class).findAll()){
             userEntityMap.put(user.getId(), user);
         }
         return userEntityMap;
@@ -162,7 +151,7 @@ public class ImageController {
 
     private Map<Integer, List<LikeEntity>> getLikesMap() {
         Map<Integer, List<LikeEntity>> likeEntityMap = new HashMap<>();
-        for(LikeEntity entity : likesDao.findAll()){
+        for(LikeEntity entity : context.getBean(LikesDao.class).findAll()){
             List<LikeEntity> list;
             if(likeEntityMap.containsKey(entity.getPostId())){
                 list = likeEntityMap.get(entity.getPostId());
@@ -177,7 +166,7 @@ public class ImageController {
 
     private Map<Integer, List<CommentEntity>> getCommentsMap() {
         Map<Integer, List<CommentEntity>> commentEntityMap = new HashMap<>();
-        for(CommentEntity entity : commentsDao.findAll()){
+        for(CommentEntity entity : context.getBean(CommentsDao.class).findAll()){
             List<CommentEntity> list;
             if(commentEntityMap.containsKey(entity.getPostId())){
                list = commentEntityMap.get(entity.getPostId());
