@@ -98,9 +98,13 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/imageList", method = RequestMethod.GET)
-    public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId) {
+    public Map<String, Object> getImageList(@RequestParam ("user_id") Integer userId,
+                                            @RequestParam (value = "timestamp", required = false) Long timestamp) {
         Map<String, Object> result = new HashMap<>();
         Map<Integer, ImageEntity> imageEntityMap = new HashMap();
+        if(timestamp == null){
+            timestamp = System.currentTimeMillis();
+        }
         for(ImageEntity entity : context.getBean(ImagesDao.class).findByUserId(userId)){
             imageEntityMap.put(entity.getId(), entity);
         }
@@ -108,7 +112,7 @@ public class ImageController {
         Map<Integer, List<LikeEntity>> likeEntityMap = getLikesMap();
         Map<Integer, UserEntity> userEntityMap = getUserMap();
         List<PostEntity> postEntityList = new ArrayList<>();
-        postEntityList.addAll(context.getBean(PostsDao.class).findByUserIdOrderByTimestampDesc(userId));
+        postEntityList.addAll(context.getBean(PostsDao.class).findLastItems(userId, timestamp, 3));
         UserEntity userEntity = context.getBean(UsersDao.class).findById(userId);
         List<PostView> postViewList = new ArrayList<>();
         for(PostEntity postEntity : postEntityList){
