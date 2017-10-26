@@ -108,7 +108,7 @@ public class ImageController {
         Map<Integer, List<LikeEntity>> likeEntityMap = getLikesMap();
         Map<Integer, UserEntity> userEntityMap = getUserMap();
         List<PostEntity> postEntityList = new ArrayList<>();
-        postEntityList.addAll(context.getBean(PostsDao.class).findByUserId(userId));
+        postEntityList.addAll(context.getBean(PostsDao.class).findByUserIdOrderByTimestampDesc(userId));
         UserEntity userEntity = context.getBean(UsersDao.class).findById(userId);
         List<PostView> postViewList = new ArrayList<>();
         for(PostEntity postEntity : postEntityList){

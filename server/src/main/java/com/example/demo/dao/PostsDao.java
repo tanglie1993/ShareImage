@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PostsDao extends CrudRepository<PostEntity, Long> {
-    List<PostEntity> findByUserId(Integer userId);
+    List<PostEntity> findByUserIdOrderByTimestampDesc(Integer userId);
     PostEntity findById(Integer id);
     List<PostEntity> findAll();
 
